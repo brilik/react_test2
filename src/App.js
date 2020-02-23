@@ -3,9 +3,12 @@ import logoToSuit from './assets/img/logo.svg';
 import logoToPages from './assets/img/page.svg';
 import logoToPosts from './assets/img/posts.svg';
 import logoToAdvance from './assets/img/advance.svg';
+import logoToUsers from './assets/img/users.svg';
 import logoToShop from './assets/img/products.svg';
 import logoToOptions from './assets/img/options.svg';
+import logoToExit from './assets/img/exit.svg';
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import styled from 'styled-components';
 import './assets/css/custom.css';
 
 function App() {
@@ -23,13 +26,25 @@ function App() {
                     </Route>
                     <Route exact path="/dashboard">
                         <HeaderDashboard/>
-                        <Dashboard/>
-                        <Aside/>
+                        <div className="float-left">
+                            <AsideDashboard/>
+                        </div>
+                        <div className="container float-right">
+                            <div className="row">
+                                <Dashboard/>
+                            </div>
+                        </div>
+                        <TemplateVerion/>
                     </Route>
                     <Route exact path="/dashboard/*">
                         <HeaderDashboard/>
-                        <Dashboard/>
-                        <Aside/>
+                        <AsideDashboard/>
+                        <div className="container">
+                            <div className="row">
+                                <Dashboard/>
+                            </div>
+                        </div>
+                        <TemplateVerion/>
                     </Route>
                     <Route exact to="*">
                         <Header/>
@@ -54,20 +69,20 @@ const NonFound = () => (
     </main>
 );
 
-const Aside = () => {
+const AsideDashboard = () => {
     let menuItems = [
-        { url: '/', title: 'Главная' },
-        { url: '/lists', title: 'Список' },
-        { url: '/dashboard', title: 'Админка' }
+        { url: '/dashboard/users/add', title: 'Создать пользователя' },
+        { url: '/dashboard/products/add', title: 'Создать товар' },
+        { url: '/dashboard/posts/add', title: 'Создать пост' },
+        { url: '/dashboard/pages/add', title: 'Создать страницу' }
     ];
 
     return (
-        <aside className="col-md-4 col-lg-3">
+        <aside className="bg-dark float-left">
             <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a className="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Home</a>
-                <a className="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-                <a className="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-                <a className="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                {(menuItems.map((e,i) => (
+                    <a key={i} className="nav-link" href={e.url}>{e.title}</a>
+                )))}
             </div>
         </aside>
     );
@@ -101,7 +116,8 @@ const HeaderDashboard = () => {
         { url: '/dashboard/posts', title: 'Посты', logo: logoToPosts },
         { url: '/dashboard/products', title: 'Продукция', logo: logoToShop },
         { url: '/dashboard/plugins', title: 'Расширения', logo: logoToAdvance },
-        { url: '/dashboard/options', title: 'Расширения', logo: logoToOptions }
+        { url: '/dashboard/users', title: 'Пользователи', logo: logoToUsers },
+        { url: '/dashboard/options', title: 'Настройки', logo: logoToOptions }
     ];
 
     return (
@@ -117,6 +133,12 @@ const HeaderDashboard = () => {
                                 </Link>
                             </li>
                         ))}
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/">
+                                <img src={logoToExit} className="img-fluid  mw-60" alt="logo"/>
+                                <span>Exit</span>
+                            </Link>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -202,11 +224,29 @@ const Home = () => {
 };
 const Dashboard = () => {
     return (
-        <main className="wrapper">
-            <div className="container">
-                <p>This is admin page</p>
-            </div>
+        <main className="col-md-8 col-lg-9">
+            <p>This is admin page</p>
         </main>
+    );
+};
+
+const TemplateVerion = () => {
+    let version = '1.0.1';
+
+    const Ver = styled.div`
+        position: absolute;
+        right: 20px;
+        bottom: 0;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        mix-blend-mode: difference;
+        color: red;
+        padding: 5px 10px;
+    `;
+
+    return (
+        <Ver className="version">
+            <p>Версия {version}</p>
+        </Ver>
     );
 };
 
