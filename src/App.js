@@ -1,6 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
+import logoToSuit from './assets/img/logo.svg';
+import logoToPages from './assets/img/page.svg';
+import logoToPosts from './assets/img/posts.svg';
+import logoToAdvance from './assets/img/advance.svg';
+import logoToShop from './assets/img/products.svg';
+import logoToOptions from './assets/img/options.svg';
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import './assets/css/custom.css';
 
 function App() {
     return (
@@ -16,6 +22,11 @@ function App() {
                         <Lists/>
                     </Route>
                     <Route exact path="/dashboard">
+                        <HeaderDashboard/>
+                        <Dashboard/>
+                        <Aside/>
+                    </Route>
+                    <Route exact path="/dashboard/*">
                         <HeaderDashboard/>
                         <Dashboard/>
                         <Aside/>
@@ -85,23 +96,25 @@ const Footer = () => {
 const HeaderDashboard = () => {
 
     let menuItems = [
-        { url: '/', title: 'На сайт' },
-        { url: '/dashboard?page=pages', title: 'Страницы' },
-        { url: '/dashboard?page=posts', title: 'Посты' },
-        { url: '/dashboard?page=plugins', title: 'Расширения' }
+        { url: '/', title: 'На сайт', logo: logoToSuit },
+        { url: '/dashboard/pages', title: 'Страницы', logo: logoToPages },
+        { url: '/dashboard/posts', title: 'Посты', logo: logoToPosts },
+        { url: '/dashboard/products', title: 'Продукция', logo: logoToShop },
+        { url: '/dashboard/plugins', title: 'Расширения', logo: logoToAdvance },
+        { url: '/dashboard/options', title: 'Расширения', logo: logoToOptions }
     ];
 
     return (
         <header className="App-header container-fluid dashboard">
             <div className="row">
                 <nav className="container-fluid navbar navbar-expand-lg navbar-dark bg-dark">
-                    <a href="/" style={{width:60}}>
-                        <img src={logo} className="img-fluid  mw-60" alt="logo"/>
-                    </a>
                     <ul className="navbar-nav mr-auto">
                         {menuItems.map((e, i) => (
                             <li className="nav-item" key={i}>
-                                <Link className="nav-link" to={e.url}>{e.title}</Link>
+                                <Link className="nav-link" to={e.url}>
+                                    <img src={e.logo} className="img-fluid  mw-60" alt="logo"/>
+                                    <span>{e.title}</span>
+                                </Link>
                             </li>
                         ))}
                     </ul>
