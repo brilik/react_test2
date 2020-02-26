@@ -5,6 +5,7 @@ import logoToPosts from './assets/img/posts.svg';
 import logoToAdvance from './assets/img/advance.svg';
 import logoToUsers from './assets/img/users.svg';
 import logoToShop from './assets/img/products.svg';
+import logoToComments from './assets/img/comment3.svg';
 import logoToOptions from './assets/img/options.svg';
 import logoToExit from './assets/img/exit.svg';
 import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
@@ -20,23 +21,19 @@ function App() {
                         <Header/>
                         <Home/>
                     </Route>
+
+
+                    <Route exact path="/css-grid">
+                        <Header/>
+                        <CssGrid/>
+                    </Route>
+
+
                     <Route exact path="/lists">
                         <Header/>
                         <Lists/>
                     </Route>
                     <Route exact path="/dashboard">
-                        <HeaderDashboard/>
-                        <div className="float-left">
-                            <AsideDashboard/>
-                        </div>
-                        <div className="container float-right">
-                            <div className="row">
-                                <Dashboard/>
-                            </div>
-                        </div>
-                        <TemplateVerion/>
-                    </Route>
-                    <Route exact path="/dashboard/*">
                         <HeaderDashboard/>
                         <AsideDashboard/>
                         <div className="container">
@@ -44,7 +41,17 @@ function App() {
                                 <Dashboard/>
                             </div>
                         </div>
-                        <TemplateVerion/>
+                        <TemplateVersion/>
+                    </Route>
+                    <Route exact path="/dashboard/*">
+                        <HeaderDashboard/>
+                        <AsideDashboard/>
+                        <div className="container-fluid">
+                            <div className="row">
+                                <Dashboard/>
+                            </div>
+                        </div>
+                        <TemplateVersion/>
                     </Route>
                     <Route exact to="*">
                         <Header/>
@@ -69,30 +76,37 @@ const NonFound = () => (
     </main>
 );
 
-const AsideDashboard = () => {
+const AsideDashboard = (props) => {
+
+    console.log(props);
+
     let menuItems = [
-        { url: '/dashboard/users/add', title: 'Создать пользователя' },
-        { url: '/dashboard/products/add', title: 'Создать товар' },
-        { url: '/dashboard/posts/add', title: 'Создать пост' },
-        { url: '/dashboard/pages/add', title: 'Создать страницу' }
+        {url: '/dashboard/pages', title: 'Все страницы'},
+        {url: '/dashboard/pages/add', title: 'Создать страницу'},
     ];
 
     return (
-        <aside className="bg-dark float-left">
-            <div className="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                {(menuItems.map((e,i) => (
-                    <a key={i} className="nav-link" href={e.url}>{e.title}</a>
-                )))}
+        <div className="container">
+            <div className="row">
+                <aside>
+                    <ul className="menu cf">
+                        {menuItems.map((e,i) => (
+                            <li key={i} className="col-sm-3">
+                                <a href={e.url}>{e.title}</a>
+                            </li>
+                        ))}
+                    </ul>
+                </aside>
             </div>
-        </aside>
+        </div>
     );
 };
 
 const Footer = () => {
     let menuItems = [
-        { url: '/', title: 'Главная' },
-        { url: '/lists', title: 'Список' },
-        { url: '/dashboard', title: 'Админка' }
+        {url: '/', title: 'Главная'},
+        {url: '/lists', title: 'Список'},
+        {url: '/dashboard', title: 'Админка'}
     ];
 
     return (
@@ -111,13 +125,14 @@ const Footer = () => {
 const HeaderDashboard = () => {
 
     let menuItems = [
-        { url: '/', title: 'На сайт', logo: logoToSuit },
-        { url: '/dashboard/pages', title: 'Страницы', logo: logoToPages },
-        { url: '/dashboard/posts', title: 'Посты', logo: logoToPosts },
-        { url: '/dashboard/products', title: 'Продукция', logo: logoToShop },
-        { url: '/dashboard/plugins', title: 'Расширения', logo: logoToAdvance },
-        { url: '/dashboard/users', title: 'Пользователи', logo: logoToUsers },
-        { url: '/dashboard/options', title: 'Настройки', logo: logoToOptions }
+        {url: '/', title: 'На сайт', logo: logoToSuit},
+        {url: '/dashboard/pages', title: 'Страницы', logo: logoToPages},
+        {url: '/dashboard/posts', title: 'Посты', logo: logoToPosts},
+        {url: '/dashboard/products', title: 'Продукция', logo: logoToShop},
+        {url: '/dashboard/comments', title: 'Коментарии', logo: logoToComments},
+        {url: '/dashboard/plugins', title: 'Расширения', logo: logoToAdvance},
+        {url: '/dashboard/users', title: 'Пользователи', logo: logoToUsers},
+        {url: '/dashboard/options', title: 'Настройки', logo: logoToOptions}
     ];
 
     return (
@@ -149,30 +164,32 @@ const HeaderDashboard = () => {
 const Header = (props) => {
 
     let menuItems = [
-        { url: '/', title: 'Главная' },
-        { url: '/lists', title: 'Список' },
-        { url: '/dashboard', title: 'Админка' }
+        {url: '/', title: 'Главная'},
+        {url: '/lists', title: 'Список'},
+        {url: '/dashboard', title: 'Админка'}
     ];
 
     console.log(props);
     // if (props.match.path === '/dashboard') {
-        {menuItems.map(item => {
+    {
+        menuItems.map(item => {
             if (item.url === '/dashboard')
                 console.log(item.url);
-                // item.push('asd');
+            // item.push('asd');
             return 0;
-        })}
+        })
+    }
     // }
 
     return (
         <header className="App-header">
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
                 <ul className="navbar-nav mr-auto">
-                {menuItems.map((e, i) => (
-                    <li className="nav-item" key={i}>
-                        <Link className="nav-link" to={e.url}>{e.title}</Link>
-                    </li>
-                ))}
+                    {menuItems.map((e, i) => (
+                        <li className="nav-item" key={i}>
+                            <Link className="nav-link" to={e.url}>{e.title}</Link>
+                        </li>
+                    ))}
                 </ul>
             </nav>
         </header>
@@ -190,22 +207,31 @@ const Lists = () => (
                     <div className="col list-item">
                         <img src="/" alt="logo" className="list-item__logo"/>
                         <span className="list-item__title">Test #1</span>
-                        <p className="list-item__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto atque beatae deserunt, dignissimos dolore dolorem harum labore molestiae necessitatibus numquam perspiciatis quasi quibusdam quidem quis, sed sequi soluta ut voluptates?</p>
+                        <p className="list-item__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Architecto atque beatae deserunt, dignissimos dolore dolorem harum labore molestiae
+                            necessitatibus numquam perspiciatis quasi quibusdam quidem quis, sed sequi soluta ut
+                            voluptates?</p>
                     </div>
                     <div className="col list-item">
                         <img src="/" alt="logo" className="list-item__logo"/>
                         <span className="list-item__title">Test #2</span>
-                        <p className="list-item__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad aut consectetur error esse ipsum labore maxime minima nemo neque non obcaecati officiis placeat quibusdam ratione, rem sint sit ut?</p>
+                        <p className="list-item__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ad
+                            aut consectetur error esse ipsum labore maxime minima nemo neque non obcaecati officiis
+                            placeat quibusdam ratione, rem sint sit ut?</p>
                     </div>
                     <div className="col list-item">
                         <img src="/" alt="logo" className="list-item__logo"/>
                         <span className="list-item__title">Test #3</span>
-                        <p className="list-item__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid aut, beatae culpa cupiditate dignissimos dolore eos est impedit, in iure laudantium libero molestias optio quibusdam repudiandae saepe ullam unde veniam?</p>
+                        <p className="list-item__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
+                            aut, beatae culpa cupiditate dignissimos dolore eos est impedit, in iure laudantium libero
+                            molestias optio quibusdam repudiandae saepe ullam unde veniam?</p>
                     </div>
                     <div className="col list-item">
                         <img src="/" alt="logo" className="list-item__logo"/>
                         <span className="list-item__title">Test #4</span>
-                        <p className="list-item__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore odio quibusdam suscipit! Ad aliquam est et magnam maiores minus nam neque non nulla odio praesentium quae quia quidem, sequi suscipit.</p>
+                        <p className="list-item__desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Inventore odio quibusdam suscipit! Ad aliquam est et magnam maiores minus nam neque non
+                            nulla odio praesentium quae quia quidem, sequi suscipit.</p>
                     </div>
                 </div>
             </div>
@@ -230,7 +256,7 @@ const Dashboard = () => {
     );
 };
 
-const TemplateVerion = () => {
+const TemplateVersion = () => {
     let version = '1.0.1';
 
     const Ver = styled.div`
@@ -247,6 +273,34 @@ const TemplateVerion = () => {
         <Ver className="version">
             <p>Версия {version}</p>
         </Ver>
+    );
+};
+
+const CssGrid = () => {
+
+    return (
+        <div className="test-wrapper">
+            <div className="test-header">
+                <ul>
+                    <li><a href="#">hello</a></li>
+                    <li><a href="#">grid</a></li>
+                    <li><a href="#">css</a></li>
+                </ul>
+            </div>
+            <div className="test-nav">
+                <ul>
+                    <li><a href="#">add</a></li>
+                    <li><a href="#">edit</a></li>
+                    <li><a href="#">remove</a></li>
+                </ul>
+            </div>
+            <div className="test-content">
+                <h1>hello world</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, molestiae nesciunt nostrum omnis
+                    quisquam tenetur veniam! Aliquid aspernatur beatae consequuntur corporis ea eveniet fugiat hic ipsum
+                    laboriosam, libero quas, ullam?</p>
+            </div>
+        </div>
     );
 };
 

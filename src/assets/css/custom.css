@@ -1,3 +1,18 @@
+/* PAGE: http://localhost:3000/css-grid start */
+.test-wrapper { margin: 0 auto; display: grid; grid-template-areas: "h h" "n c"; grid-template-rows: 60px 1fr; grid-template-columns: 2fr 10fr; }
+.test-header {background-color:darkgreen  ; grid-area: h; }
+.test-nav {background-color: darkgoldenrod; grid-area: n; }
+.test-content {background-color: darkkhaki; grid-area: c; }
+@media (max-width: 576px) {
+    .test-wrapper {
+        grid-template-areas: "h" "n" "c";
+        grid-template-columns: 2fr 0;
+    }
+}
+/* PAGE: http://localhost:3000/css-grid end */
+
+
+
 main {
     padding: 50px 0;
 }
@@ -50,3 +65,47 @@ main {
         width: 100%;
     }
 }
+
+/* ASIDE */
+aside {
+    display: inherit;
+    width: 100%;
+}
+
+.menu {
+    list-style:none;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+}
+.menu > li {
+    background: #34495e;
+    float: left;
+    min-width: 155px;
+    position: relative;
+    -webkit-transform: skewX(25deg);
+    border: 1px black solid;
+}
+.menu a {
+    display: block;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 11px;
+}
+.menu li:hover {
+    background: #e74c3c;
+}
+.menu > li > a {
+    -webkit-transform: skewX(-25deg);
+    padding: 1em 2em;
+}
+
+@media (max-width: 576px) {
+    aside .col {
+        border: 1px black solid;
+    }
+}
+
+
+/* ASIDE */
